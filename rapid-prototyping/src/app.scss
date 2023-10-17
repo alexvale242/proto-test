@@ -1,1 +1,10 @@
-@import '../node_modules/@enableinternational/eds-common/assets/styles/eds-styles.scss';
+@import '../node_modules/@enableinternational/eds-common/assets/styles/eds-styles';
+@import '../node_modules/@enableinternational/eds-common/assets/styles/reset-beta';
+@import '../node_modules/@enableinternational/eds-common/assets/styles/typography';
+
+@include eds-text-style();
+
+* {
+    font-family: var(--eds-font-family-normal);
+    font-size: 16px;
+}

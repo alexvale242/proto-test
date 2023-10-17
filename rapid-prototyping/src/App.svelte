@@ -1,11 +1,11 @@
 <script lang="ts">
-    import WorkfowBar from './lib/WorkfowBar.svelte';
-
+  import WorkflowPage from './features/workflow-prototype/pages/workflow-page.svelte';
+    import AppHeader from './lib/app-header.svelte';
 </script>
 
 <main>
-    <button class="eds-button eds-button--prominent">Test</button>
-    <WorkfowBar></WorkfowBar>
+  <AppHeader />
+  <WorkflowPage />
 </main>
 
 <style>
