@@ -59,6 +59,7 @@
   .comment__container {
     display: flex;
     margin-bottom: 2rem;
+    margin-top: 1.5rem;
   }
   .comment__title {
     font-size: 1.25rem;
