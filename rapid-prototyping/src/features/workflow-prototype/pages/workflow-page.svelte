@@ -4,6 +4,11 @@
   import ClaimDetails from '../components/claim-details.svelte';
   import MockConfigDraw from '../../../lib/mock-config-draw.svelte';
   import MockControls from '../components/mock-controls.svelte';
+  import workflowMockService from '../services/workflow-mock';
+
+  function approveStep() {
+    workflowMockService.approveStep();
+  }
 </script>
 
 <div class="page-heading">
@@ -20,6 +25,7 @@
 
 <section class="workflow-bar__container">
   <WorkfowBar />
+  <button class="eds-button" on:click={approveStep}>Approve</button>
 </section>
 
 <MockConfigDraw>

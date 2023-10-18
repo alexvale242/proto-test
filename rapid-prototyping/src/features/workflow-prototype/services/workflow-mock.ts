@@ -14,7 +14,7 @@ export class WorkflowMockService {
         },
         {
             label: 'step-3',
-            workflowState: 2
+            workflowState: 3
         },
         {
             label: 'step-4',
@@ -41,7 +41,7 @@ export class WorkflowMockService {
         },
         {
             label: 'step-2',
-            workflowState: 0
+            workflowState: 3
         },
         {
             label: 'step-3',
@@ -54,6 +54,16 @@ export class WorkflowMockService {
 
     public resetSteps(): void {
         this.workflowState.update((state) => { return { ...state, steps: this.smallWorkflowSteps } });
+    }
+
+    public approveStep(): void {
+        this.workflowState.update((state) => {
+            const steps = state.steps;
+            const stepIndex = steps.findIndex(o => o.workflowState === WorkflowState.inprogress);
+            steps[stepIndex].workflowState = WorkflowState.complete;
+            steps[stepIndex + 1].workflowState = WorkflowState.inprogress;
+            return { ...state, steps: steps}
+        })
     }
 }
 
