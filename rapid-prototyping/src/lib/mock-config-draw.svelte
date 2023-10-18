@@ -8,7 +8,9 @@
 
 <section class={drawOpen ? "open" : ""}>
     <button class="config-button" on:click="{toggleDraw}">{drawOpen ? "Close" : "Open"} config </button>
-    <div class="config-draw" />
+    <div class="config-draw">
+        <slot></slot>
+    </div>
 </section>
 
 <style lang="scss">

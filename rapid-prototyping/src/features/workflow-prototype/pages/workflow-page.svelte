@@ -2,13 +2,15 @@
   import WorkfowBar from '../components/workflow-bar.svelte';
   import ClaimActivity from '../components/claim-activity.svelte';
   import ClaimDetails from '../components/claim-details.svelte';
+  import MockConfigDraw from '../../../lib/mock-config-draw.svelte';
+  import MockControls from '../components/mock-controls.svelte';
 </script>
 
 <div class="page-heading">
   <h1>Manage claim</h1>
 </div>
 <div class="page-container">
-  <div>
+  <div class="details-container">
     <ClaimDetails />
   </div>
   <div class="activity-container">
@@ -20,7 +22,14 @@
   <WorkfowBar />
 </section>
 
+<MockConfigDraw>
+  <MockControls />
+</MockConfigDraw>
+
 <style lang="scss">
+  .details-container {
+    margin-right: 2rem;
+  }
   .page-heading {
     padding-top: 2rem;
     padding-left: 2rem;

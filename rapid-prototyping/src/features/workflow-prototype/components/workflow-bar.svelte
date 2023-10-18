@@ -1,16 +1,16 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { WorkflowStep } from '../services/workflow-mock';
-  import { WorkflowMockService } from '../services/workflow-mock';
+  import workflowMockService from '../services/workflow-mock';
 
   let workflowSteps: WorkflowStep[] = [];
-
-  const mockService = new WorkflowMockService();
 
   // Load data from the service when the component is mounted
   onMount(async () => {
     try {
-      workflowSteps = mockService.getWorkflowSteps();
+      workflowMockService.workflowState.subscribe($state => {
+        workflowSteps = $state.steps;
+      })
     } catch (error) {
       console.error('Error loading data:', error);
     }

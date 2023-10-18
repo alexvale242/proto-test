@@ -7,7 +7,6 @@
 <main>
   <AppHeader />
   <WorkflowPage />
-  <MockConfigDraw></MockConfigDraw>
 </main>
 
 <style>
