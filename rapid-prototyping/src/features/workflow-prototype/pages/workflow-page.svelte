@@ -33,10 +33,10 @@
 </MockConfigDraw>
 
 <style lang="scss">
-    button {
-        margin: 0.5rem 1rem;
-        height: 2rem;
-    }
+  button {
+    margin: 0.5rem 1rem;
+    height: 2rem;
+  }
   .details-container {
     margin-right: 2rem;
   }

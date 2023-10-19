@@ -1,13 +1,18 @@
 <script lang="ts">
   import WorkflowPage from './features/workflow-prototype/pages/workflow-page.svelte';
-    import AppHeader from './lib/app-header.svelte';
-    import MockConfigDraw from './lib/mock-config-draw.svelte';
+  import AppHeader from './lib/app-header.svelte';
+  import MockConfigDraw from './lib/mock-config-draw.svelte';
 </script>
 
 <main>
-  <AppHeader />
+  <section class="heading">
+    <AppHeader />
+  </section>
   <WorkflowPage />
 </main>
 
 <style>
+    .heading {
+        padding-top: 4rem;
+    }
 </style>

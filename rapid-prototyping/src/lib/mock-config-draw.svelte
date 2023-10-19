@@ -15,15 +15,15 @@
 
 <style lang="scss">
     :root{
-        --draw-width: 500px;
+        --draw-width: 100svw;
     }
     .config-button {
         position: fixed;
-        top: 50%;
-        right: -32px;
+        top: 0;
+        right: 0;
         height: 2rem;
-        transform:rotate(-90deg);
-        transition: right 1s;
+        transition: right 0.3s;
+        z-index: 300;
     }
     .config-draw {
         position: fixed;
@@ -33,12 +33,12 @@
         height: 100vh;
         border: 1px solid var(--eds-brand-color-border-base);
         background-color: var(--eds-brand-color-background-base);
-        transition: right 1s;
+        transition: right 0.3s;
     }
 
     .open {
         .config-button {
-            right: calc(var(--draw-width) - 34px);
+            right: 0;
         }
 
         .config-draw {

@@ -10,6 +10,10 @@
 <style lang="scss">
     header {
         background-color: var(--eds-brand-color-primary);
+        z-index: 300;
+        position: fixed;
+        width: 100vw;
+        top: 0;
     }
     .enable-link {
         font-size: 0;
