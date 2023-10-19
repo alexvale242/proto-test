@@ -8,6 +8,10 @@ export class WorkflowQueryProcessor {
             return workflow;
         }
 
+        if (workflowUtils.isWorkflowComplete(workflow)) {
+            return workflow;
+        }
+
         const newSteps = workflow.steps;
 
         for (let i = 0; i < newSteps.length; i++) {
@@ -23,6 +27,10 @@ export class WorkflowQueryProcessor {
 
     public resolveQuery(workflow: Workflow): Workflow {
         if (workflow.steps.length === 0) {
+            return workflow;
+        }
+
+        if (workflowUtils.isWorkflowComplete(workflow)) {
             return workflow;
         }
 

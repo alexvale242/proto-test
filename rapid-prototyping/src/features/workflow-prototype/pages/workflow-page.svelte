@@ -7,7 +7,7 @@
   import workflowMockService from '../services/workflow-mock';
 
   function approveStep() {
-    workflowMockService.approveStep();
+    workflowMockService.approve();
   }
 </script>
 

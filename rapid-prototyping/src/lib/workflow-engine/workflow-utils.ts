@@ -12,6 +12,10 @@ export class WorkflowUtils {
             steps: steps
         };
     }
+
+    public isWorkflowComplete(workflow: Workflow): boolean  {
+        return workflow.steps.filter(o => o.workflowState !== WorkflowState.complete).length === 0;
+    }
 }
 
 export default new WorkflowUtils();

@@ -1,8 +1,8 @@
-import { describe, it, expect, test, assert } from 'vitest'
-import testUtils from '../test-utils'
-import workflowUtils from '../../workflow-utils';
-import workflowApprovalProcessor from '../../processors/workflow-approval.processor';
+import { describe, expect, it } from 'vitest';
 import { WorkflowState } from '../../models/workflow-state.model';
+import workflowApprovalProcessor from '../../processors/workflow-approval.processor';
+import workflowUtils from '../../workflow-utils';
+import testUtils from '../test-utils';
 
 describe('workflow approval processor', () => {
     it('approve moves current step from in-progress to complete', () => {
@@ -32,6 +32,13 @@ describe('workflow approval processor', () => {
 
     it('approve handles workflow with no steps', () => {
         const workflow = testUtils.getEmptyWorkflowSteps();
+        const result = workflowApprovalProcessor.approve(workflow);
+
+        expect(result.steps).toBe(workflow.steps);
+    });
+
+    it('approve handles completed workflow', () => {
+        const workflow = testUtils.getCompletedWorkflowSteps();
         const result = workflowApprovalProcessor.approve(workflow);
 
         expect(result.steps).toBe(workflow.steps);

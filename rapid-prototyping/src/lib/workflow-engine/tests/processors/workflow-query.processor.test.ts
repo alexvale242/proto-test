@@ -1,8 +1,8 @@
-import { describe, it, expect, test, assert } from 'vitest'
-import testUtils from '../test-utils'
-import workflowUtils from '../../workflow-utils';
-import workflowQueryProcessor from '../../processors/workflow-query.processor';
+import { describe, expect, it } from 'vitest';
 import { WorkflowState } from '../../models/workflow-state.model';
+import workflowQueryProcessor from '../../processors/workflow-query.processor';
+import workflowUtils from '../../workflow-utils';
+import testUtils from '../test-utils';
 
 describe('workflow query processor', () => {
     it('query moves first step to queried', () => {
@@ -40,5 +40,21 @@ describe('workflow query processor', () => {
         const result = workflowQueryProcessor.resolveQuery(workflow);
 
         expect(result.steps).toBe(workflow.steps);
+    });
+
+    it('query handles completed workflow', () => {
+        const workflow = testUtils.getCompletedWorkflowSteps();
+        const newWorkflow = workflowQueryProcessor.query(workflow);
+        const result = workflowUtils.isWorkflowComplete(newWorkflow);
+
+        expect(result).toBe(true);
+    });
+
+    it('resolve query handles completed workflow', () => {
+        const workflow = testUtils.getCompletedWorkflowSteps();
+        const newWorkflow = workflowQueryProcessor.resolveQuery(workflow);
+        const result = workflowUtils.isWorkflowComplete(newWorkflow);
+
+        expect(result).toBe(true);
     });
 });

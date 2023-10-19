@@ -73,6 +73,26 @@ export class TestUtils {
         }
     }
 
+    public getCompletedWorkflowSteps(): Workflow {
+        return {
+            steps: [
+                {
+                    label: 'step-1',
+                    workflowState: WorkflowState.complete
+                },
+                {
+                    label: 'step-2',
+                    workflowState: WorkflowState.complete
+                },
+                {
+                    label: 'step-3',
+                    workflowState: WorkflowState.complete
+                },
+
+            ]
+        }
+    }
+
     public getEmptyWorkflowSteps(): Workflow {
         return {
             steps: []
