@@ -1,4 +1,6 @@
 import { writable } from 'svelte/store';
+import type { WorkflowStep } from '../../../lib/workflow-engine/models/workflow-step.model';
+import { WorkflowState } from '../../../lib/workflow-engine/models/workflow-state.model';
 
 export class WorkflowMockService {
     constructor() { }
@@ -6,19 +8,19 @@ export class WorkflowMockService {
     private defaultWorkflowSteps: WorkflowStep[] = [
         {
             label: 'step-1',
-            workflowState: 1
+            workflowState: 2
         },
         {
             label: 'step-2',
-            workflowState: 1
+            workflowState: 2
         },
         {
             label: 'step-3',
-            workflowState: 3
+            workflowState: 2
         },
         {
             label: 'step-4',
-            workflowState: 0
+            workflowState: 1
         },
         {
             label: 'step-5',
@@ -37,11 +39,11 @@ export class WorkflowMockService {
     private smallWorkflowSteps: WorkflowStep[] = [
         {
             label: 'step-1',
-            workflowState: 1
+            workflowState: 2
         },
         {
             label: 'step-2',
-            workflowState: 3
+            workflowState: 1
         },
         {
             label: 'step-3',
@@ -68,19 +70,3 @@ export class WorkflowMockService {
 }
 
 export default new WorkflowMockService();
-
-export interface WorkflowStep {
-    label: string;
-    workflowState: WorkflowState;
-}
-
-export enum WorkflowState {
-    incomplete,
-    complete,
-    queried,
-    inprogress
-}
-
-export interface Workflow {
-    steps: WorkflowStep[];
-}
