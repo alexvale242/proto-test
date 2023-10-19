@@ -24,6 +24,11 @@
         height: 2rem;
         transition: right 0.3s;
         z-index: 300;
+        border: 1px solid var(--eds-brand-color-border-base);
+
+        &:hover {
+            background-color: var(--eds-brand-color-background-base);
+        }
     }
     .config-draw {
         position: fixed;

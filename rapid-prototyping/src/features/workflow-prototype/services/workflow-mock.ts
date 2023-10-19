@@ -3,6 +3,7 @@ import type { WorkflowStep } from '../../../lib/workflow-engine/models/workflow-
 import { WorkflowState } from '../../../lib/workflow-engine/models/workflow-state.model';
 import workflowEngine from '../../../lib/workflow-engine/workflow-engine';
 import type { Workflow } from '../../../lib/workflow-engine/models/workflow.model';
+import workflowUtils from '../../../lib/workflow-engine/workflow-utils';
 
 export class WorkflowMockService {
     constructor() { }
@@ -62,6 +63,10 @@ export class WorkflowMockService {
         this.workflowState.update((workflow) => {
             return workflowEngine.resolveQuery(workflow);
         })
+    }
+
+    public getWorkflowInQuery(workflow: Workflow): boolean {
+        return workflowUtils.isWorkflowQueried(workflow);
     }
 }
 
