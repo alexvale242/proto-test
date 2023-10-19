@@ -12,6 +12,10 @@ export class WorkflowApprovalProcessor {
             return workflow;
         }
 
+        if (workflowUtils.isWorkflowQueried(workflow)) {
+            return workflow;
+        }
+
         const currentStepIndex = workflowUtils.getCurrentStepIndex(workflow);
 
         workflow.steps[currentStepIndex].workflowState = WorkflowState.complete;

@@ -16,6 +16,10 @@ export class WorkflowUtils {
     public isWorkflowComplete(workflow: Workflow): boolean  {
         return workflow.steps.filter(o => o.workflowState !== WorkflowState.complete).length === 0;
     }
+
+    public isWorkflowQueried(workflow: Workflow): boolean  {
+        return workflow.steps.filter(o => o.workflowState === WorkflowState.queried).length > 0;
+    }
 }
 
 export default new WorkflowUtils();

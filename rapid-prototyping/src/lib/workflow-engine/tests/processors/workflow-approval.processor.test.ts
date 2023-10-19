@@ -43,4 +43,11 @@ describe('workflow approval processor', () => {
 
         expect(result.steps).toBe(workflow.steps);
     });
+
+    it('approve handles queried workflow', () => {
+        const workflow = testUtils.getQueriedWorkflowSteps();
+        const result = workflowApprovalProcessor.approve(workflow);
+
+        expect(result.steps).toBe(workflow.steps);
+    });
 });

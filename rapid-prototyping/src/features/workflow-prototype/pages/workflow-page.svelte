@@ -9,10 +9,19 @@
   function approveStep() {
     workflowMockService.approve();
   }
+
+  function queryStep() {
+    workflowMockService.query();
+  }
+
+  function resetWorkflow() {
+    workflowMockService.resetSteps();
+  }
 </script>
 
 <div class="page-heading">
   <h1>Manage claim</h1>
+  <button class="eds-button corner-control" on:click={resetWorkflow}>Reset</button>
 </div>
 <div class="page-container">
   <div class="details-container">
@@ -25,7 +34,8 @@
 
 <section class="workflow-bar__container">
   <WorkfowBar />
-  <button class="eds-button" on:click={approveStep}>Approve</button>
+  <button class="eds-button eds-button--prominent" on:click={approveStep}>Approve</button>
+  <button class="eds-button" on:click={queryStep}>Query</button>
 </section>
 
 <MockConfigDraw>
@@ -64,5 +74,11 @@
   .activity-container {
     border-left: 1px solid var(--eds-brand-color-border-base);
     padding-left: 2rem;
+  }
+
+  .corner-control {
+    position: fixed;
+    top: 6rem;
+    right: 0;
   }
 </style>

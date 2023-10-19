@@ -2,45 +2,48 @@ import { writable } from 'svelte/store';
 import type { WorkflowStep } from '../../../lib/workflow-engine/models/workflow-step.model';
 import { WorkflowState } from '../../../lib/workflow-engine/models/workflow-state.model';
 import workflowEngine from '../../../lib/workflow-engine/workflow-engine';
+import type { Workflow } from '../../../lib/workflow-engine/models/workflow.model';
 
 export class WorkflowMockService {
     constructor() { }
 
-    private defaultWorkflowSteps: WorkflowStep[] = [
-        {
-            label: 'step-1',
-            workflowState: WorkflowState.inprogress
-        },
-        {
-            label: 'step-2',
-            workflowState: WorkflowState.notStarted
-        },
-        {
-            label: 'step-3',
-            workflowState: WorkflowState.notStarted
-        },
-        {
-            label: 'step-4',
-            workflowState: WorkflowState.notStarted
-        },
-        {
-            label: 'step-5',
-            workflowState: WorkflowState.notStarted
-        },
-        {
-            label: 'step-6',
-            workflowState: WorkflowState.notStarted
-        },
-        {
-            label: 'step-7',
-            workflowState: WorkflowState.notStarted
+    private getDefaultWorkflow(): Workflow {
+        return {
+            steps: [{
+                label: 'step-1',
+                workflowState: WorkflowState.inprogress
+            },
+            {
+                label: 'step-2',
+                workflowState: WorkflowState.notStarted
+            },
+            {
+                label: 'step-3',
+                workflowState: WorkflowState.notStarted
+            },
+            {
+                label: 'step-4',
+                workflowState: WorkflowState.notStarted
+            },
+            {
+                label: 'step-5',
+                workflowState: WorkflowState.notStarted
+            },
+            {
+                label: 'step-6',
+                workflowState: WorkflowState.notStarted
+            },
+            {
+                label: 'step-7',
+                workflowState: WorkflowState.notStarted
+            }]
         }
-    ]
+    }
 
-    public workflowState = writable({ steps: this.defaultWorkflowSteps });
+    public workflowState = writable(this.getDefaultWorkflow());
 
     public resetSteps(): void {
-        this.workflowState.update((state) => { return { ...state, steps: this.defaultWorkflowSteps } });
+        this.workflowState.update((state) => { return this.getDefaultWorkflow() });
     }
 
     public approve(): void {
