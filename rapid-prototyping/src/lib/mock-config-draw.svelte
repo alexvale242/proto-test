@@ -1,5 +1,5 @@
 <script lang="ts">
-    let drawOpen = true;
+    let drawOpen = false;
 
     function toggleDraw() {
         drawOpen = !drawOpen;
