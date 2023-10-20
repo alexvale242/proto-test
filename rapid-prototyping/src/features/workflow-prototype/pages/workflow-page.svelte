@@ -60,7 +60,7 @@
 
 <section class="workflow-bar__container">
     <WorkfowBar />
-    <button class="eds-button eds-button--prominent" on:click={approveStep}>
+    <button class="eds-button eds-button--prominent" disabled={workflowIsQueried} on:click={approveStep}>
         Approve
     </button>
 </section>
