@@ -11,31 +11,15 @@ export class WorkflowMockService {
     private getDefaultWorkflow(): Workflow {
         return {
             steps: [{
-                label: 'step-1',
+                label: 'Commercial',
                 workflowState: WorkflowState.inprogress
             },
             {
-                label: 'step-2',
+                label: 'Finance',
                 workflowState: WorkflowState.notStarted
             },
             {
-                label: 'step-3',
-                workflowState: WorkflowState.notStarted
-            },
-            {
-                label: 'step-4',
-                workflowState: WorkflowState.notStarted
-            },
-            {
-                label: 'step-5',
-                workflowState: WorkflowState.notStarted
-            },
-            {
-                label: 'step-6',
-                workflowState: WorkflowState.notStarted
-            },
-            {
-                label: 'step-7',
+                label: 'Accounts Receivable',
                 workflowState: WorkflowState.notStarted
             }]
         }
