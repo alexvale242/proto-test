@@ -6,6 +6,7 @@
     import MockControls from "../components/mock-controls.svelte";
     import workflowMockService from "../services/workflow-mock";
     import claimActivityMock from '../services/claim-activity-mock';
+    import WorkflowConfig from '../components/workflow-config.svelte';
 
     function approveStep() {
         workflowMockService.approve();
@@ -62,7 +63,8 @@
 </section>
 
 <MockConfigDraw>
-    <MockControls />
+    <!-- <MockControls /> -->
+    <WorkflowConfig></WorkflowConfig>
 </MockConfigDraw>
 
 <style lang="scss">

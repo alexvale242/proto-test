@@ -14,6 +14,57 @@
 </section>
 
 <style lang="scss">
+    @mixin format-scrollbar($direction: vertical, $show-only-on-hover: true) {
+        /* stylelint-disable max-line-length */
+        @if $show-only-on-hover == true {
+            scrollbar-color: var(--eds-color-white, #fff)
+                var(--eds-color-white, #fff);
+        } @else {
+            scrollbar-color: var(--eds-color-steel-50, #82999c)
+                var(--eds-color-white, #fff);
+        }
+        /* stylelint-enable max-line-length */
+
+        scrollbar-width: thin;
+
+        &::-webkit-scrollbar {
+            @if $direction == horizontal {
+                width: auto;
+                height: 10px;
+            } @else if $direction == vertical {
+                width: 10px;
+            } @else if $direction == both {
+                width: 10px;
+                height: 10px;
+            }
+        }
+
+        &::-webkit-scrollbar-track {
+            background: var(--eds-color-white, #fff);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border: 2px var(--eds-color-white, #fff) solid;
+            border-radius: 5px;
+            transition: border 0.5s, border-radius 0.5s;
+
+            @if $show-only-on-hover == false {
+                background-color: var(--eds-color-steel-50, #82999c);
+            }
+        }
+
+        @if $show-only-on-hover == true {
+            &:hover {
+                scrollbar-color: var(--eds-color-steel-50, #82999c)
+                    var(--eds-color-white, #fff);
+
+                &::-webkit-scrollbar-thumb {
+                    background-color: var(--eds-color-steel-50, #82999c);
+                }
+            }
+        }
+    }
+
     :root{
         --draw-width: 100svw;
     }
@@ -39,6 +90,9 @@
         border: 1px solid var(--eds-brand-color-border-base);
         background-color: var(--eds-brand-color-background-base);
         transition: right 0.3s;
+
+        overflow-y: auto;
+        @include format-scrollbar();
     }
 
     .open {
