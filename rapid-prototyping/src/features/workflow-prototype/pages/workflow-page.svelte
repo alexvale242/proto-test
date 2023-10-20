@@ -11,10 +11,6 @@
         workflowMockService.approve();
     }
 
-    function queryStep() {
-        workflowMockService.query();
-    }
-
     function resolveQuery() {
         workflowMockService.resolveQuery();
     }

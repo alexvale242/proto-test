@@ -68,6 +68,14 @@ export class WorkflowMockService {
     public getWorkflowInQuery(workflow: Workflow): boolean {
         return workflowUtils.isWorkflowQueried(workflow);
     }
+
+    public setWorkflowSteps(workflowSteps: WorkflowStep[]) {
+        const workflow: Workflow = {
+            steps: workflowSteps
+        };
+
+        this.workflowState.update((state) => { return workflow });
+    }
 }
 
 export default new WorkflowMockService();
