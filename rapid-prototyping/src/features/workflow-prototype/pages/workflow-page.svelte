@@ -123,7 +123,6 @@
     }
 
     .query-message {
-        margin-right: 2rem;
         display: block;
     }
 
