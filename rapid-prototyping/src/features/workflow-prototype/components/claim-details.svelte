@@ -4,11 +4,6 @@
 
 <form class="eds-stack eds-form">
     <fieldset class="eds-fieldset">
-        <legend class="eds-legend">
-          <h2>
-            Details
-          </h2>
-        </legend>
         <div class="eds-grid-form">
             <div>
                 <eds-form-field label="Name" name="name">
@@ -17,8 +12,8 @@
                 <eds-form-field label="Status" name="status">
                     <input class="eds-input" id="status" name="status" type="text" value="Open">
                 </eds-form-field>
-                <eds-form-field label="Value" name="value" readonly="true">
-                    <input class="eds-input eds-read-only" id="value" name="value" type="text" value="£1000" readonly>
+                <eds-form-field label="Value (CUR)" name="value" readonly="true">
+                    <input class="eds-input eds-read-only" id="value" name="value" type="text" value="13.17" readonly>
                 </eds-form-field>
                 <eds-form-field label="Partner" name="partner" readonly="true">
                     <input class="eds-input eds-read-only" id="partner" name="partner" type="text" value="Enable Electronics" readonly>

@@ -1,52 +1,58 @@
+import { writable } from 'svelte/store';
+
 export interface Comment {
     name: string;
     date: string;
     comment: string;
-    title: string;
-  }
-  
-  export class ClaimActivityMockService {
-    private comments: Comment[] = [
-      {
-        name: "John Doe",
-        date: "2023-10-10",
-        comment: "This collaboration is going well!",
-        title: "Positive Feedback",
-      },
-      {
-        name: "Alice Smith",
-        date: "2023-10-12",
-        comment: "I have some concerns about section 2.3.",
-        title: "Concerns Raised",
-      },
-      {
-        name: "Bob Johnson",
-        date: "2023-10-14",
-        comment: "Let's schedule a meeting to discuss the changes.",
-        title: "Meeting Request",
-      },
-      // Add more comments as needed
-    ];
-  
-    getComments(): Comment[] {
-      return this.comments;
+    isQuery: boolean;
+}
+
+export class ClaimActivityMockService {
+    private getDefaultComments(): Comment[] {
+        return [
+            {
+                name: "John Doe",
+                date: "2023-10-10",
+                comment: "Thanks Alice. Looks great"!,
+                isQuery: false
+            },
+            {
+                name: "Bob Johnson",
+                date: "2023-10-12",
+                comment: "13.17 CUR seems a little high to me, I'm only willing to pay 13.15 CUR",
+                isQuery: false,
+            },
+            {
+                name: "Alice Smith",
+                date: "2023-10-14",
+                comment: "Let's schedule a meeting to discuss the changes.",
+                isQuery: false
+            }
+        ]
     }
-  
+
+    public commentsState = writable(this.getDefaultComments());
+
     addComment(newComment: Comment): void {
-      this.comments.push(newComment);
+        this.commentsState.update((comments) => {
+            const newComments = [...comments];
+            newComments.push(newComment);
+            return newComments;
+        })
     }
-  
-    updateComment(updatedComment: Comment): void {
-      const index = this.comments.findIndex((c) => c.date === updatedComment.date);
-      if (index !== -1) {
-        this.comments[index] = updatedComment;
-      }
+
+    createComment(name: string, comment: string, isQuery: boolean): Comment {
+        return {
+            name: name,
+            comment: comment,
+            date: "2023-10-20",
+            isQuery: isQuery
+        }
     }
-  
-    deleteComment(commentDate: string): void {
-      const index = this.comments.findIndex((c) => c.date === commentDate);
-      if (index !== -1) {
-        this.comments.splice(index, 1);
-      }
+
+    public resetComments(): void {
+        this.commentsState.update((comments) => { return this.getDefaultComments() });
     }
-  }
+}
+
+export default new ClaimActivityMockService();

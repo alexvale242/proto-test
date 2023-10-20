@@ -42,5 +42,4 @@ export class WorkflowQueryProcessor {
     }
 }
 
-
 export default new WorkflowQueryProcessor();

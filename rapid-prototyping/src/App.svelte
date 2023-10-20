@@ -13,6 +13,6 @@
 
 <style>
     .heading {
-        padding-top: 4rem;
+        height: 4rem;
     }
 </style>

@@ -5,6 +5,7 @@
     import MockConfigDraw from "../../../lib/mock-config-draw.svelte";
     import MockControls from "../components/mock-controls.svelte";
     import workflowMockService from "../services/workflow-mock";
+    import claimActivityMock from '../services/claim-activity-mock';
 
     function approveStep() {
         workflowMockService.approve();
@@ -20,6 +21,7 @@
 
     function resetWorkflow() {
         workflowMockService.resetSteps();
+        claimActivityMock.resetComments();
     }
 
     let workflowIsQueried = false;
@@ -32,8 +34,10 @@
 <div class="page-heading">
     <h1>Manage claim</h1>
     <button class="corner-control" on:click={resetWorkflow}>Reset</button>
+</div>
+<div class="page-container {workflowIsQueried ? 'queried' : ''}">
     {#if workflowIsQueried}
-        <div>
+        <div class="query-message-container">
             <eds-info-message
                 class="query-message"
                 status="warning"
@@ -41,11 +45,11 @@
                 message="The workflow for this claim has been queried, copy text copy text blah blah blah"
                 size="fill"
             />
-            <button class="query-button eds-button" on:click={resolveQuery}>Resolve query</button>
+            <button class="query-button eds-button" on:click={resolveQuery}
+                >Resolve query</button
+            >
         </div>
     {/if}
-</div>
-<div class="page-container">
     <div class="details-container">
         <ClaimDetails />
     </div>
@@ -56,10 +60,9 @@
 
 <section class="workflow-bar__container">
     <WorkfowBar />
-    <button class="eds-button eds-button--prominent" on:click={approveStep}
-        >Approve</button
-    >
-    <button class="eds-button" on:click={queryStep}>Query</button>
+    <button class="eds-button eds-button--prominent" on:click={approveStep}>
+        Approve
+    </button>
 </section>
 
 <MockConfigDraw>
@@ -71,13 +74,12 @@
         margin: 0.5rem 1rem;
         height: 2rem;
     }
-    .details-container {
-        margin-right: 2rem;
-    }
+
     .page-heading {
         padding-top: 2rem;
         padding-left: 2rem;
     }
+
     .workflow-bar__container {
         position: fixed;
         bottom: 0;
@@ -92,12 +94,23 @@
     .page-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        row-gap: 1rem;
+        column-gap: 2rem;
         padding: 0 2rem;
+        height: calc(100svh - 15rem);
+        width: 100%;
+    }
+
+    .query-message-container {
+        grid-column: span 2;
+        height: 3.5rem;
     }
 
     .activity-container {
         border-left: 1px solid var(--eds-brand-color-border-base);
         padding-left: 2rem;
+        padding-bottom: 2rem;
+        padding-top: 1rem;
     }
 
     .corner-control {
@@ -112,16 +125,16 @@
             background-color: var(--eds-brand-color-background-base);
         }
     }
+
     .query-message {
         margin-right: 2rem;
-        margin-bottom: 2rem;
         display: block;
     }
 
     .query-button {
         margin: 0;
         position: relative;
-        top: -4.75rem;
+        top: -2.75rem;
         right: 3rem;
         float: right;
 
