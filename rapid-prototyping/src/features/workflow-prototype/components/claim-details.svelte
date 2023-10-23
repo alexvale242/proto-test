@@ -1,9 +1,8 @@
 <script lang="ts">
-    import StatusBox from './status-box.svelte';
-    import workflowMockService from "../services/workflow-mock";
-    import { WorkflowState } from '../../../lib/workflow-engine/models/workflow-state.model';
     import { onMount } from 'svelte';
-    import WorkflowBarDetails from './workflow-bar-details.svelte';
+    import { WorkflowState } from '../../../lib/workflow-engine/models/workflow-state.model';
+    import workflowMockService from "../services/workflow-mock";
+    import StatusBox from './status-box.svelte';
 
     let readonlyMode = false;
 

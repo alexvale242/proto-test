@@ -1,13 +1,11 @@
 <script lang="ts">
-    import WorkfowBar from "../components/workflow-bar.svelte";
+    import MockConfigDraw from "../../../lib/mock-config-draw.svelte";
     import ClaimActivity from "../components/claim-activity.svelte";
     import ClaimDetails from "../components/claim-details.svelte";
-    import MockConfigDraw from "../../../lib/mock-config-draw.svelte";
-    import MockControls from "../components/mock-controls.svelte";
-    import workflowMockService from "../services/workflow-mock";
-    import claimActivityMock from '../services/claim-activity-mock';
+    import WorkfowBar from "../components/workflow-bar.svelte";
     import WorkflowConfig from '../components/workflow-config.svelte';
-    import WorkflowBarDetails from '../components/workflow-bar-details.svelte';
+    import claimActivityMock from '../services/claim-activity-mock';
+    import workflowMockService from "../services/workflow-mock";
 
     function approveStep() {
         workflowMockService.approve();
@@ -23,9 +21,12 @@
     }
 
     let workflowIsQueried = false;
+    const defaultQueryText = 'The workflow for this claim has been queried: ';
+    let queryText = defaultQueryText;
 
     workflowMockService.workflowState.subscribe((workflow) => {
         workflowIsQueried = workflowMockService.getWorkflowInQuery(workflow);
+        queryText = defaultQueryText + workflow.queryMessage;
     });
 </script>
 
@@ -40,7 +41,7 @@
                 class="query-message"
                 status="warning"
                 display="block"
-                message="The workflow for this claim has been queried, copy text copy text blah blah blah"
+                message="{queryText}"
                 size="fill"
             />
             <button class="query-button eds-button" on:click={resolveQuery}
@@ -84,6 +85,7 @@
         bottom: 0;
         width: 100%;
         padding: 1rem;
+        padding-left: 2rem;
         border: 1px solid var(--eds-brand-color-border-base);
         background-color: var(--eds-brand-color-background-base);
 

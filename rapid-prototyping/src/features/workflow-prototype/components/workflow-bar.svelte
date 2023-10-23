@@ -7,8 +7,8 @@
 
     let workflowSteps: WorkflowStep[] = [];
 
-    let detailsVisible = true;
-    let leftness = 50;
+    let detailsVisible = false;
+    let leftness = 0;
 
     // Load data from the service when the component is mounted
     onMount(async () => {
@@ -31,7 +31,7 @@
             leftness = index / numberOfSteps * workflowBarWidth;
 
             if (leftness === 0) {
-                leftness = 16;
+                leftness = 32;
             }
         };
     }

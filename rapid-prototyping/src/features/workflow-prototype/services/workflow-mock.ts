@@ -37,9 +37,11 @@ export class WorkflowMockService {
         })
     }
 
-    public query(): void {
+    public query(comment: string): void {
         this.workflowState.update((workflow) => {
-            return workflowEngine.query(workflow);
+            const newWorkflow = workflowEngine.query(workflow);
+            newWorkflow.queryMessage = comment;
+            return newWorkflow;
         })
     }
 
