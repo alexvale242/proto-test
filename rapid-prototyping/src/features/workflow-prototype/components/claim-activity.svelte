@@ -4,7 +4,7 @@
     import claimActivityMockService from "../services/claim-activity-mock";
     import { DateDistanceService } from "../services/date-distance.service";
     import ChatBox from "./chat-box.svelte";
-    import workflowMockService from '../services/workflow-mock';
+    import workflowMockService from "../services/workflow-mock";
     const dateDistanceService = new DateDistanceService();
 
     let comments: Comment[] = [];
@@ -22,6 +22,22 @@
                     comments = commentsState;
                 }
             );
+
+            const toggleElement = document.getElementById(
+                "toggle-button-example"
+            ) as any;
+            if (toggleElement !== null) {
+                toggleElement.states = [
+                    {
+                        id: "activity",
+                        label: "Activity",
+                    },
+                    {
+                        id: "comments",
+                        label: "Comments",
+                    },
+                ];
+            }
         } catch (error) {
             console.error("Error loading data:", error);
         }
@@ -33,8 +49,11 @@
 </script>
 
 <section class="activity">
-    <h2>Claim Activity</h2>
-    <div class="comments__container {workflowIsQueried ? 'isQueried': ''}">
+    <div class="heading">
+        <h2>Claim Activity</h2>
+        <eds-toggle-button id="toggle-button-example" currentstate="comments" disabled readonly/>
+    </div>
+    <div class="comments__container {workflowIsQueried ? 'isQueried' : ''}">
         {#each comments as comment}
             <div class="comment__container {comment.isQuery ? 'query' : ''}">
                 <div class="comment__avatar">
@@ -196,5 +215,15 @@
                 background-color: var(--eds-color-orange-10);
             }
         }
+    }
+
+    .heading {
+        display: flex;
+    }
+
+    eds-toggle-button {
+        display: block;
+        max-width: 300px;
+        flex: 0 0 300px;
     }
 </style>
