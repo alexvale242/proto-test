@@ -176,7 +176,7 @@
 <style lang="scss">
     .workflow-config__page {
         display: grid;
-        grid-template-columns: 1fr 4fr;
+        grid-template-columns: minmax(400px, 1fr) 4fr;
         grid-gap: 2rem;
         padding: 2rem;
         padding-top: 6rem;
@@ -219,15 +219,7 @@
 
     .workflow-config__container {
         padding: 1rem;
-
-        &:not(:first-child) {
-            margin-left: 2rem;
-        }
-
-        .config__summary {
-        }
-        .config__workflow-steps {
-        }
+        margin-right: 2rem;
     }
 
     .remove-step {
