@@ -2,9 +2,13 @@
     import { onMount } from "svelte";
     import workflowMockService from "../services/workflow-mock";
     import type { WorkflowStep } from "../../../lib/workflow-engine/models/workflow-step.model";
-    import { WorkflowState } from '../../../lib/workflow-engine/models/workflow-state.model';
+    import { WorkflowState } from "../../../lib/workflow-engine/models/workflow-state.model";
+    import WorkflowBarDetails from "./workflow-bar-details.svelte";
 
     let workflowSteps: WorkflowStep[] = [];
+
+    let detailsVisible = true;
+    let leftness = 50;
 
     // Load data from the service when the component is mounted
     onMount(async () => {
@@ -16,14 +20,32 @@
             console.error("Error loading data:", error);
         }
     });
+
+    function toggleDetails(index: number) {
+        detailsVisible = !detailsVisible;
+
+        if (detailsVisible) {
+            const numberOfSteps = workflowSteps.length;
+
+            const workflowBarWidth = (document.getElementsByClassName("workflow-bar")[0] as any).offsetWidth;
+            leftness = index / numberOfSteps * workflowBarWidth;
+
+            if (leftness === 0) {
+                leftness = 16;
+            }
+        };
+    }
 </script>
 
 <div class="workflow-bar">
     {#each workflowSteps as { label, workflowState }, i}
         <div
+            on:click={() => toggleDetails(i)}
             class="step-container {workflowState === WorkflowState.complete
                 ? 'success'
-                : ''} {workflowState === WorkflowState.queried ? 'queried' : ''} {workflowState === WorkflowState.inprogress
+                : ''} {workflowState === WorkflowState.queried
+                ? 'queried'
+                : ''} {workflowState === WorkflowState.inprogress
                 ? 'in-progress'
                 : ''}"
         >
@@ -33,8 +55,30 @@
         </div>
     {/each}
 </div>
+{#if detailsVisible}
+    <div class="workflow-details" style="left: {leftness}px">
+        <WorkflowBarDetails />
+    </div>
+{/if}
 
 <style lang="scss">
+    .workflow-details {
+        position: absolute;
+        bottom: 6rem;
+        z-index: 500;
+        background-color: white;
+
+        &::after {
+            content: "";
+            position: absolute;
+            border-left: 2rem solid transparent;
+            border-right: 2rem solid transparent;
+            border-top: 2rem solid var(--eds-brand-color-background-base);
+            left: 1rem;
+            filter: drop-shadow(0px 7px 4px rgba(0, 0, 0, 0.15));
+        }
+    }
+
     .workflow-bar {
         flex: 1 1 0;
         display: flex;
@@ -52,6 +96,7 @@
         display: flex;
         flex: 1 1 0;
         height: var(--bar-height);
+        cursor: pointer;
 
         &.success {
             --bar-background-color: var(--eds-brand-color-primary);

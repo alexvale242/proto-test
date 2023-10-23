@@ -7,6 +7,7 @@
     import workflowMockService from "../services/workflow-mock";
     import claimActivityMock from '../services/claim-activity-mock';
     import WorkflowConfig from '../components/workflow-config.svelte';
+    import WorkflowBarDetails from '../components/workflow-bar-details.svelte';
 
     function approveStep() {
         workflowMockService.approve();
