@@ -60,6 +60,24 @@ export class WorkflowMockService {
 
         this.workflowState.update((state) => { return workflow });
     }
+
+    public getWorkflowStatus(workflow: Workflow): WorkflowState {
+        if (workflow === null || workflow.steps === null || workflow.steps.length === 0) {
+            return WorkflowState.notStarted;
+        } else if (workflowUtils.isWorkflowQueried(workflow)) {
+            return WorkflowState.queried;
+        } else if (workflowUtils.isWorkflowComplete(workflow)) {
+            return WorkflowState.complete;
+        } else {
+            const currentIndex = workflowUtils.getCurrentStepIndex(workflow);
+            if (currentIndex === 0) {
+                return WorkflowState.notStarted;
+            } else {
+                return workflow.steps[currentIndex].workflowState;
+            }
+        }
+
+    }
 }
 
 export default new WorkflowMockService();
