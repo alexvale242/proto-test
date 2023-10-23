@@ -76,7 +76,6 @@ export class WorkflowMockService {
                 return workflow.steps[currentIndex].workflowState;
             }
         }
-
     }
 }
 
