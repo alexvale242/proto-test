@@ -87,24 +87,6 @@
                     />
                 </eds-form-field>
 
-                <eds-form-field label="Other things" name="name">
-                    <input
-                        class="eds-input"
-                        id="name"
-                        name="name"
-                        type="text"
-                        value="Things"
-                    />
-                </eds-form-field>
-                <eds-form-field label="Other things" name="name">
-                    <input
-                        class="eds-input"
-                        id="name"
-                        name="name"
-                        type="text"
-                        value="Stuff"
-                    />
-                </eds-form-field>
                 <eds-form-field label="Active" name="active">
                     <eds-toggle-switch
                         id="eds-toggle-switch__default"
@@ -114,6 +96,14 @@
                         checked="false"
                         disabled="false"
                     />
+                </eds-form-field>
+
+                <eds-form-field label="Description" name="description">
+                    <textarea
+                    class="eds-input"
+                    id="comment-input"
+                    placeholder=""
+                />
                 </eds-form-field>
             </div>
         </div>
@@ -263,5 +253,9 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 2rem;
+
+        :nth-child(3) {
+            grid-column: span 2;
+        }
     }
 </style>
