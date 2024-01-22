@@ -24,7 +24,7 @@
     }
 
     export let modalOpen = false;
-    let adjustClaimMode = true;
+    let adjustClaimMode = false;
     let adjustValue = 0;
 </script>
 
