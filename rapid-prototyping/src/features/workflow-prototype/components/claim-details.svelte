@@ -3,15 +3,18 @@
     import { WorkflowState } from '../../../lib/workflow-engine/models/workflow-state.model';
     import workflowMockService from "../services/workflow-mock";
     import StatusBox from './status-box.svelte';
-
+    import claimValueService from '../services/claim-value.service';
     let readonlyMode = false;
-
+    let claimValue = 0;
     onMount(async () => {
         try {
             workflowMockService.workflowState.subscribe((workflow) => {
                 const workflowState = workflowMockService.getWorkflowStatus(workflow);
                 readonlyMode = workflowState !== WorkflowState.notStarted;
             });
+            claimValueService.claimValue.subscribe(value => {
+                claimValue = value;
+            })
         } catch (error) {
             console.error("Error loading data:", error);
         }
@@ -43,7 +46,7 @@
                         id="value"
                         name="value"
                         type="text"
-                        value="13.17"
+                        value="{claimValue}"
                         readonly
                     />
                 </eds-form-field>

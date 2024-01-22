@@ -2,6 +2,7 @@
     import MockConfigDraw from "../../../lib/mock-config-draw.svelte";
     import ClaimActivity from "../components/claim-activity.svelte";
     import ClaimDetails from "../components/claim-details.svelte";
+    import QueryPanel from '../components/query-panel.svelte';
     import WorkfowBar from "../components/workflow-bar.svelte";
     import WorkflowConfig from '../components/workflow-config.svelte';
     import claimActivityMock from '../services/claim-activity-mock';
@@ -9,10 +10,6 @@
 
     function approveStep() {
         workflowMockService.approve();
-    }
-
-    function resolveQuery() {
-        workflowMockService.resolveQuery();
     }
 
     function resetWorkflow() {
@@ -28,6 +25,12 @@
         workflowIsQueried = workflowMockService.getWorkflowInQuery(workflow);
         queryText = defaultQueryText + workflow.queryMessage;
     });
+
+    let queryModalOpen = false;
+
+    function openModalPanel() {
+        queryModalOpen = true;
+    }
 </script>
 
 <div class="page-heading">
@@ -44,7 +47,7 @@
                 message="{queryText}"
                 size="fill"
             />
-            <button class="query-button eds-button" on:click={resolveQuery}
+            <button class="query-button eds-button" on:click={openModalPanel}
                 >Resolve query</button
             >
         </div>
@@ -68,6 +71,7 @@
     <!-- <MockControls /> -->
     <WorkflowConfig></WorkflowConfig>
 </MockConfigDraw>
+<QueryPanel bind:modalOpen={queryModalOpen}></QueryPanel>
 
 <style lang="scss">
     button {
