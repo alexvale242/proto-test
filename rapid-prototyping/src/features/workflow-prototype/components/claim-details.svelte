@@ -5,20 +5,25 @@
     import StatusBox from './status-box.svelte';
     import claimValueService from '../services/claim-value.service';
     let readonlyMode = false;
-    let claimValue = 0;
+    let adjustedClaimValue: number | null = null;
+    const claimValue = claimValueService.claimValue;
+
     onMount(async () => {
         try {
             workflowMockService.workflowState.subscribe((workflow) => {
                 const workflowState = workflowMockService.getWorkflowStatus(workflow);
                 readonlyMode = workflowState !== WorkflowState.notStarted;
             });
-            claimValueService.claimValue.subscribe(value => {
-                claimValue = value;
+
+            claimValueService.adjustedClaimValue.subscribe(value => {
+                    adjustedClaimValue = value;
             })
         } catch (error) {
             console.error("Error loading data:", error);
         }
     });
+
+    $: adjustedValueHelpText = adjustedClaimValue !== null ? `This value has been adjusted from ${claimValue} CUR to ${adjustedClaimValue} CUR` : null;
 </script>
 
 <form class="eds-stack eds-form">
@@ -40,13 +45,14 @@
                     label="Value (CUR)"
                     name="value"
                     readonly="true"
+                    helptext="{adjustedValueHelpText}"
                 >
                     <input
                         class="eds-input eds-read-only"
                         id="value"
                         name="value"
                         type="text"
-                        value="{claimValue}"
+                        value="{adjustedClaimValue !== null ? adjustedClaimValue : claimValue}"
                         readonly
                     />
                 </eds-form-field>

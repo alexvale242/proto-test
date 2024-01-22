@@ -24,9 +24,11 @@
 
     function adjustClaim() {
         if (!!adjustValue) {
+            const currentClaimValue = claimValueService.getCurrentClaimValue();
             claimValueService.writeClaimValue(adjustValue);
 
-            resetWorkflow(adjustComments);
+            const adjustMessage = `Claim value adjusted from ${currentClaimValue} CUR to ${adjustValue} CUR. The following comment was made: ${adjustComments}`;
+            resetWorkflow(adjustMessage);
         }
     }
 
@@ -107,7 +109,7 @@
                         <button
                             disabled={!canSubmitReset}
                             class="eds-button eds-button--prominent adjust-claim"
-                            on:click={() => resetWorkflow(resetComments)}>Reset workflow</button
+                            on:click={() => resetWorkflow(`Workflow has been reset. The following comment was made: ${resetComments}`)}>Reset workflow</button
                         >
                     </div>
                 </eds-accordion>
