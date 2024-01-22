@@ -5,6 +5,7 @@ export interface Comment {
     date: string;
     comment: string;
     isQuery: boolean;
+    isQueryResolution?: boolean;
 }
 
 export class ClaimActivityMockService {
@@ -47,6 +48,16 @@ export class ClaimActivityMockService {
             comment: comment,
             date: "2023-10-20",
             isQuery: isQuery
+        }
+    }
+
+    createQueryResolution(name: string, comment: string): Comment {
+        return {
+            name: name,
+            comment: comment,
+            date: "2023-10-20",
+            isQuery: false,
+            isQueryResolution: true
         }
     }
 

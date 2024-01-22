@@ -40,10 +40,9 @@
     }
 
     function addComment(comment: string) {
-        const newComment = claimActivityMockService.createComment(
+        const newComment = claimActivityMockService.createQueryResolution(
                 "Query Resolver",
                 comment,
-                false
             );
 
             claimActivityMockService.addComment(newComment);
@@ -57,7 +56,6 @@
     let resetComments = "";
     let adjustComments = "";
     let archiveComments = "";
-
 
     $: canSubmitAdjustment = adjustComments.trim() !== "" && !!adjustValue;
     $: canSubmitArchive = archiveComments.trim() !== "";
@@ -87,7 +85,7 @@
         />
             <div class="query-actions">
                 <eds-accordion
-                    id="eds-accordion-web-default"
+                    id="eds-accordion-reset"
                     headingsize="medium"
                     open="false"
                     disabled="false"
@@ -114,7 +112,7 @@
                     </div>
                 </eds-accordion>
                 <eds-accordion
-                    id="eds-accordion-web-default"
+                    id="eds-accordion-adjust"
                     headingsize="medium"
                     open="false"
                     disabled="false"
@@ -153,7 +151,7 @@
                     </div>
                 </eds-accordion>
                 <eds-accordion
-                    id="eds-accordion-web-default"
+                    id="eds-accordion-archive"
                     headingsize="medium"
                     open="false"
                     disabled="false"
