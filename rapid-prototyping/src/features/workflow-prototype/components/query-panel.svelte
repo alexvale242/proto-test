@@ -1,31 +1,52 @@
 <script lang="ts">
     import workflowMockService from "../services/workflow-mock";
-    import claimValueService from '../services/claim-value.service';
+    import claimValueService from "../services/claim-value.service";
+    import { onMount } from "svelte";
+
+    onMount(async () => {
+        try {
+            workflowMockService.workflowState.subscribe((workflow) => {
+                queryRaisedBy = workflow.queryRaisedBy;
+                queryMessage = workflow.queryMessage;
+            });
+        } catch (error) {
+            console.error("Error loading data:", error);
+        }
+    });
 
     function resetWorkflow() {
         workflowMockService.resolveQuery();
+        resetForms();
         modalOpen = false;
     }
 
-    function openAdjustClaimMode() {
-        adjustClaimMode = true;
-    }
-
     function adjustClaim() {
-        const valueInput = document.getElementById("claim-value") as HTMLInputElement;
-        const claimValue = valueInput?.value;
-
-        if (!!claimValue) {
-            var valueNum = parseFloat(claimValue);
-            claimValueService.writeClaimValue(valueNum);
+        if (!!adjustValue) {
+            claimValueService.writeClaimValue(adjustValue);
 
             resetWorkflow();
         }
     }
 
+    let queryRaisedBy: string | undefined = "";
+    let queryMessage: string | undefined = "";
+
     export let modalOpen = false;
-    let adjustClaimMode = false;
     let adjustValue = 0;
+    let resetComments = "";
+    let adjustComments = "";
+    let archiveComments = "";
+
+    function resetForms() {
+        adjustValue = 0;
+        resetComments = "";
+        adjustComments = "";
+        archiveComments = "";
+    }
+
+    $: canSubmitAdjustment = adjustComments.trim() !== "" && !!adjustValue;
+    $: canSubmitArchive = archiveComments.trim() !== "";
+    $: canSubmitReset = resetComments.trim() !== "";
 </script>
 
 <eds-modal
@@ -37,53 +58,136 @@
     disableclickoutside="true"
 >
     <div slot="body">
-        {#if adjustClaimMode}
-            <div>
-                <h2>Adjust Claim</h2>
-                <p>Please adjust the claim value.</p>
-                <form class="adjust-form">
-                    <eds-form-field label="Claim value (CUR)" name="claim-value">
-                        <input class="eds-input" id="claim-value" name="claim-value" type="text" value="{adjustValue}">
-                    </eds-form-field>
-                </form>
-                <button
-                class="eds-button eds-button--prominent adjust-claim"
-                on:click={adjustClaim}>Adjust claim</button>
+        <div>
+            <h2>Resolve query</h2>
+            <p>
+                A query has been raised by {queryRaisedBy}. How do you wish to resolve this query?
+            </p>
+            <eds-info-message
+            class="query-message"
+            status="warning"
+            display="block"
+            message="{queryMessage}"
+            size="fill"
+        />
+            <div class="query-actions">
+                <eds-accordion
+                    id="eds-accordion-web-default"
+                    headingsize="medium"
+                    open="false"
+                    disabled="false"
+                >
+                    <div slot="header">
+                        <span>Reset workflow</span>
+                    </div>
+                    <div slot="content">
+                        <form class="adjust-form">
+                            <eds-form-field label="Comment" name="comment">
+                                <textarea
+                                    class="eds-input"
+                                    id="comment"
+                                    name="comment"
+                                    bind:value={resetComments}
+                                />
+                            </eds-form-field>
+                        </form>
+                        <button
+                            disabled={!canSubmitReset}
+                            class="eds-button eds-button--prominent adjust-claim"
+                            on:click={resetWorkflow}>Reset workflow</button
+                        >
+                    </div>
+                </eds-accordion>
+                <eds-accordion
+                    id="eds-accordion-web-default"
+                    headingsize="medium"
+                    open="false"
+                    disabled="false"
+                >
+                    <div slot="header">
+                        <span>Adjust claim</span>
+                    </div>
+                    <div slot="content">
+                        <form class="adjust-form">
+                            <eds-form-field
+                                label="Claim value (CUR)"
+                                name="claim-value"
+                            >
+                                <input
+                                    class="eds-input"
+                                    id="claim-value"
+                                    name="claim-value"
+                                    type="number"
+                                    bind:value={adjustValue}
+                                />
+                            </eds-form-field>
+                            <eds-form-field label="Comment" name="comment">
+                                <textarea
+                                    class="eds-input"
+                                    id="comment"
+                                    name="comment"
+                                    bind:value={adjustComments}
+                                />
+                            </eds-form-field>
+                        </form>
+                        <button
+                            disabled={!canSubmitAdjustment}
+                            class="eds-button eds-button--prominent adjust-claim"
+                            on:click={adjustClaim}>Adjust claim</button
+                        >
+                    </div>
+                </eds-accordion>
+                <eds-accordion
+                    id="eds-accordion-web-default"
+                    headingsize="medium"
+                    open="false"
+                    disabled="false"
+                >
+                    <div slot="header">
+                        <span>Archive claim</span>
+                    </div>
+                    <div slot="content">
+                        <form class="adjust-form">
+                            <eds-form-field label="Comment" name="comment">
+                                <textarea
+                                    class="eds-input"
+                                    id="comment"
+                                    name="comment"
+                                    bind:value={archiveComments}
+                                />
+                            </eds-form-field>
+                        </form>
+                        <button
+                            disabled={!canSubmitArchive}
+                            class="eds-button eds-button--prominent adjust-claim"
+                            >Archive claim</button
+                        >
+                    </div>
+                </eds-accordion>
             </div>
-        {:else}
-            <div>
-                <h2>Resolve query</h2>
-                <p>How do you wish to resolve the query?</p>
-                <div class="query-actions">
-                    <button
-                        class="eds-button eds-button--prominent"
-                        on:click={resetWorkflow}>Reset workflow</button
-                    >
-                    <button class="eds-button" on:click={openAdjustClaimMode}>Adjust claim</button>
-                    <button class="eds-button">Delete claim</button>
-                </div>
-            </div>
-        {/if}
+        </div>
     </div>
 </eds-modal>
 
 <style lang="scss">
     .query-actions {
-        display: flex;
-        flex-direction: column;
+        margin-top: 2rem;
 
-        button {
-            display: block;
+        :not(:first-child) {
             margin-top: 1rem;
         }
     }
 
-    .adjust-form {
-        margin-top: 1rem;
-    }
-
     .adjust-claim {
         width: 100%;
-        margin-top: 2rem;
+        margin-top: 2rem !important;
+    }
+
+    p {
+        margin: 2rem 0;
+    }
+
+    button {
+        max-width: 300px;
     }
 </style>

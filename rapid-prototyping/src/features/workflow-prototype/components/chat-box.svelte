@@ -26,7 +26,7 @@
             claimActivityMockService.addComment(newComment);
 
             if (queryModeEnabled) {
-                workflowMock.query(commentValue);
+                workflowMock.query(commentValue, "John Bobson");
             }
 
             (document.getElementById("comment-input") as any).value = "";
