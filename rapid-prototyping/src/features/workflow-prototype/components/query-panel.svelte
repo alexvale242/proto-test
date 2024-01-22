@@ -2,6 +2,7 @@
     import workflowMockService from "../services/workflow-mock";
     import claimValueService from "../services/claim-value.service";
     import { onMount } from "svelte";
+    import claimActivityMockService from "../services/claim-activity-mock";
 
     onMount(async () => {
         try {
@@ -14,8 +15,9 @@
         }
     });
 
-    function resetWorkflow() {
+    function resetWorkflow(comment: string) {
         workflowMockService.resolveQuery();
+        addComment(comment);
         resetForms();
         modalOpen = false;
     }
@@ -24,8 +26,25 @@
         if (!!adjustValue) {
             claimValueService.writeClaimValue(adjustValue);
 
-            resetWorkflow();
+            resetWorkflow(adjustComments);
         }
+    }
+
+    function resetForms() {
+        adjustValue = 0;
+        resetComments = "";
+        adjustComments = "";
+        archiveComments = "";
+    }
+
+    function addComment(comment: string) {
+        const newComment = claimActivityMockService.createComment(
+                "Query Resolver",
+                comment,
+                false
+            );
+
+            claimActivityMockService.addComment(newComment);
     }
 
     let queryRaisedBy: string | undefined = "";
@@ -37,12 +56,6 @@
     let adjustComments = "";
     let archiveComments = "";
 
-    function resetForms() {
-        adjustValue = 0;
-        resetComments = "";
-        adjustComments = "";
-        archiveComments = "";
-    }
 
     $: canSubmitAdjustment = adjustComments.trim() !== "" && !!adjustValue;
     $: canSubmitArchive = archiveComments.trim() !== "";
@@ -94,7 +107,7 @@
                         <button
                             disabled={!canSubmitReset}
                             class="eds-button eds-button--prominent adjust-claim"
-                            on:click={resetWorkflow}>Reset workflow</button
+                            on:click={() => resetWorkflow(resetComments)}>Reset workflow</button
                         >
                     </div>
                 </eds-accordion>
