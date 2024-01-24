@@ -73,6 +73,26 @@ export class TestUtils {
         }
     }
 
+    public getHalfCompleteQueriedWorkflowSteps(): Workflow {
+        return {
+            steps: [
+                {
+                    label: 'step-1',
+                    workflowState: WorkflowState.complete
+                },
+                {
+                    label: 'step-2',
+                    workflowState: WorkflowState.queried
+                },
+                {
+                    label: 'step-3',
+                    workflowState: WorkflowState.notStarted
+                },
+
+            ]
+        }
+    }
+
     public getCompletedWorkflowSteps(): Workflow {
         return {
             steps: [

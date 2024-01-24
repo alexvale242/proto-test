@@ -17,6 +17,13 @@ export class WorkflowUtils {
         return workflow.steps.filter(o => o.workflowState !== WorkflowState.complete).length === 0;
     }
 
+    public isWorkflowCompletelyFresh(workflow: Workflow): boolean  {
+        const firstStepInProgress = workflow.steps[0].workflowState === WorkflowState.inprogress;
+        const noStepsAreComplete = workflow.steps.filter(o => o.workflowState !== WorkflowState.complete).length === 0;
+        const allOtherStepsAreNotStarted = workflow.steps.filter(o => o.workflowState !== WorkflowState.inprogress).length === workflow.steps.length - 1;
+        return firstStepInProgress && noStepsAreComplete && allOtherStepsAreNotStarted;
+    }
+
     public isWorkflowQueried(workflow: Workflow): boolean  {
         return workflow.steps.filter(o => o.workflowState === WorkflowState.queried).length > 0;
     }
