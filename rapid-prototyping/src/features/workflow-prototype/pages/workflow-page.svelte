@@ -2,13 +2,14 @@
     import MockConfigDraw from "../../../lib/mock-config-draw.svelte";
     import ClaimActivity from "../components/claim-activity.svelte";
     import ClaimDetails from "../components/claim-details.svelte";
-    import QueryPanel from '../components/query-panel.svelte';
+    import QueryPanel from "../components/query-panel.svelte";
     import WorkfowBar from "../components/workflow-bar.svelte";
-    import WorkflowConfig from '../components/workflow-config.svelte';
-    import claimActivityMock from '../services/claim-activity-mock';
+    import WorkflowConfig from "../components/workflow-config.svelte";
+    import claimActivityMock from "../services/claim-activity-mock";
     import workflowMockService from "../services/workflow-mock";
 
     function approveStep() {
+        approveConfirmModalOpen = false;
         workflowMockService.approve();
     }
 
@@ -18,7 +19,7 @@
     }
 
     let workflowIsQueried = false;
-    const defaultQueryText = 'The workflow for this claim has been queried: ';
+    const defaultQueryText = "The workflow for this claim has been queried: ";
     let queryText = defaultQueryText;
 
     workflowMockService.workflowState.subscribe((workflow) => {
@@ -28,8 +29,18 @@
 
     let queryModalOpen = false;
 
-    function openModalPanel() {
+    function openQueryModalPanel() {
         queryModalOpen = true;
+    }
+
+    let approveConfirmModalOpen = false;
+
+    function openApproveConfirmModalPanel() {
+        approveConfirmModalOpen = true;
+    }
+
+    function closeApproveConfirmModalPanel() {
+        approveConfirmModalOpen = false;
     }
 </script>
 
@@ -44,11 +55,12 @@
                 class="query-message"
                 status="warning"
                 display="block"
-                message="{queryText}"
+                message={queryText}
                 size="fill"
             />
-            <button class="query-button eds-button" on:click={openModalPanel}
-                >Resolve query</button
+            <button
+                class="query-button eds-button"
+                on:click={openQueryModalPanel}>Resolve query</button
             >
         </div>
     {/if}
@@ -60,22 +72,63 @@
     </div>
 </div>
 
+<!-- Workflow bar section -->
 <section class="workflow-bar__container">
     <WorkfowBar />
-    <button class="eds-button eds-button--prominent" disabled={workflowIsQueried} on:click={approveStep}>
+    <button
+        class="eds-button"
+        disabled={workflowIsQueried}
+        on:click={approveStep}
+    >
+        Cancel query
+    </button>
+    <button
+        class="eds-button eds-button--prominent"
+        disabled={workflowIsQueried}
+        on:click={openApproveConfirmModalPanel}
+    >
         Approve
     </button>
 </section>
 
 <MockConfigDraw>
-    <!-- <MockControls /> -->
     <WorkflowConfig></WorkflowConfig>
 </MockConfigDraw>
+
+<!-- Query resolution modal panel -->
 <QueryPanel bind:modalOpen={queryModalOpen}></QueryPanel>
+
+<!-- Approval confirmation modal panel -->
+<eds-modal
+    id="query-modal"
+    open={approveConfirmModalOpen}
+    size="fitcontent"
+    usecontrolregion="true"
+    controlregionstyle="unstyled"
+    disableclickoutside="true"
+>
+    <div slot="body">
+        <h2>Confirm approval</h2>
+        <p>
+            Are you sure you want approve this Claim?
+        </p>
+    </div>
+
+    <div slot="control-region" style="padding: 0 2rem;">
+        <button
+            class="eds-button eds-button--prominent"
+            style="margin-right: 1rem;"
+            id="dialog-example-modal--done-button" on:click={approveStep}>Confirm</button
+        >
+        <button class="eds-button" id="dialog-example-modal--cancel-button"
+        on:click={closeApproveConfirmModalPanel} >Cancel</button
+        >
+    </div>
+</eds-modal>
 
 <style lang="scss">
     button {
-        margin: 0.5rem 1rem;
+        margin: 0.5rem 0.5rem;
         height: 2rem;
     }
 
