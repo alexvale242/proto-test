@@ -15,8 +15,15 @@
         }
     });
 
-    function resetWorkflow(comment: string) {
-        workflowMockService.resolveQuery();
+    function restartWorkflow(comment: string) {
+        workflowMockService.restartWorkflow();
+        addComment(comment);
+        resetForms();
+        modalOpen = false;
+    }
+
+    function continueWorkflow(comment: string) {
+        workflowMockService.continueWorkflow();
         addComment(comment);
         resetForms();
         modalOpen = false;
@@ -28,7 +35,7 @@
             claimValueService.writeClaimValue(adjustValue);
 
             const adjustMessage = `Claim value adjusted from ${currentClaimValue} CUR to ${adjustValue} CUR. The following comment was made: ${adjustComments}`;
-            resetWorkflow(adjustMessage);
+            restartWorkflow(adjustMessage);
         }
     }
 
@@ -36,7 +43,7 @@
         adjustValue = 0;
         resetComments = "";
         adjustComments = "";
-        archiveComments = "";
+        continueComments = "";
     }
 
     function addComment(comment: string) {
@@ -55,10 +62,10 @@
     let adjustValue = 0;
     let resetComments = "";
     let adjustComments = "";
-    let archiveComments = "";
+    let continueComments = "";
 
     $: canSubmitAdjustment = adjustComments.trim() !== "" && !!adjustValue;
-    $: canSubmitArchive = archiveComments.trim() !== "";
+    $: canSubmitContinue = continueComments.trim() !== "";
     $: canSubmitReset = resetComments.trim() !== "";
 </script>
 
@@ -91,7 +98,7 @@
                     disabled="false"
                 >
                     <div slot="header">
-                        <span>Reset workflow</span>
+                        <span>Restart workflow</span>
                     </div>
                     <div slot="content">
                         <form class="adjust-form">
@@ -107,7 +114,7 @@
                         <button
                             disabled={!canSubmitReset}
                             class="eds-button eds-button--prominent adjust-claim"
-                            on:click={() => resetWorkflow(`Workflow has been reset. The following comment was made: ${resetComments}`)}>Reset workflow</button
+                            on:click={() => restartWorkflow(`Workflow has been reset. The following comment was made: ${resetComments}`)}>Reset workflow</button
                         >
                     </div>
                 </eds-accordion>
@@ -157,7 +164,7 @@
                     disabled="false"
                 >
                     <div slot="header">
-                        <span>Archive claim</span>
+                        <span>Continue workflow</span>
                     </div>
                     <div slot="content">
                         <form class="adjust-form">
@@ -166,14 +173,15 @@
                                     class="eds-input"
                                     id="comment"
                                     name="comment"
-                                    bind:value={archiveComments}
+                                    bind:value={continueComments}
                                 />
                             </eds-form-field>
                         </form>
                         <button
-                            disabled={!canSubmitArchive}
+                            disabled={!canSubmitContinue}
                             class="eds-button eds-button--prominent adjust-claim"
-                            >Archive claim</button
+                            on:click={() => continueWorkflow(`Workflow has been continued. The following comment was made: ${continueComments}`)}
+                            >Continue workflow</button
                         >
                     </div>
                 </eds-accordion>

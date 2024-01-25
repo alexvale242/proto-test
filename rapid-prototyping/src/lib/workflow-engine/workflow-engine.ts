@@ -11,8 +11,12 @@ export class WorkflowEngine {
         return workflowQueryProcessor.query(workflow);
     }
 
-    public resolveQuery(workflow: Workflow): Workflow {
-        return workflowQueryProcessor.resolveQuery(workflow);
+    public restartWorkflow(workflow: Workflow): Workflow {
+        return workflowQueryProcessor.restartWorkflow(workflow);
+    }
+
+    public continueWorkflow(workflow: Workflow): Workflow {
+        return workflowQueryProcessor.continueWorkflow(workflow);
     }
 }
 

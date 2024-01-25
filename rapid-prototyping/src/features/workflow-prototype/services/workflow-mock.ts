@@ -46,9 +46,15 @@ export class WorkflowMockService {
         })
     }
 
-    public resolveQuery(): void {
+    public continueWorkflow(): void {
         this.workflowState.update((workflow) => {
-            return workflowEngine.resolveQuery(workflow);
+            return workflowEngine.continueWorkflow(workflow);
+        })
+    }
+
+    public restartWorkflow(): void {
+        this.workflowState.update((workflow) => {
+            return workflowEngine.restartWorkflow(workflow);
         })
     }
 
