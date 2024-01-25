@@ -31,7 +31,7 @@
         if (queriedTeamIndex !== -1) {
             queriedTeamLabel = workflow.steps[queriedTeamIndex].label;
         }
-        queryText = `The workflow for this claim has been queried by the ${queriedTeamLabel} team. The matter is with the ${draftTeamLabel} team to resolve.`;
+        queryText = `The workflow for this claim has been queried by ${queriedTeamLabel}. The matter is with ${draftTeamLabel} to resolve.`;
     });
 
     let queryModalOpen = false;
