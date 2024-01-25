@@ -48,15 +48,20 @@
 
     function addComment(comment: string) {
         const newComment = claimActivityMockService.createQueryResolution(
-                "Query Resolver",
-                comment,
-            );
+            "Query Resolver",
+            comment,
+        );
 
-            claimActivityMockService.addComment(newComment);
+        claimActivityMockService.addComment(newComment);
     }
 
     function closePanel() {
         modalOpen = false;
+    }
+
+    function openAccordion(panelNumber: number) {
+        console.log(panelNumber);
+        panelNumberOpen = panelNumber;
     }
 
     let queryRaisedBy: string | undefined = "";
@@ -71,8 +76,12 @@
     $: canSubmitAdjustment = adjustComments.trim() !== "" && !!adjustValue;
     $: canSubmitContinue = continueComments.trim() !== "";
     $: canSubmitReset = resetComments.trim() !== "";
+
+    $: panelNumberOpen = 1;
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <eds-modal
     id="query-modal"
     open={modalOpen}
@@ -85,61 +94,84 @@
         <div>
             <h2>Resolve query</h2>
             <p>
-                A query has been raised by {queryRaisedBy}, this query must be resolved before workflow can continue. How do you wish to resolve this query?
+                A query has been raised by {queryRaisedBy}, this query must be
+                resolved before workflow can continue. How do you wish to
+                resolve this query?
             </p>
-            <button class="close-panel" on:click="{closePanel}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="#2D3839" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2D3839" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                  </svg>
+            <button class="close-panel" on:click={closePanel}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#2D3839"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#2D3839"
+                    class="w-6 h-6"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                    />
+                </svg>
             </button>
             <eds-info-message
-            class="query-message"
-            status="warning"
-            display="block"
-            message="{queryMessage}"
-            size="fill"
-        />
+                class="query-message"
+                status="warning"
+                display="block"
+                message={queryMessage}
+                size="fill"
+            />
             <div class="query-actions">
                 <eds-accordion
-                id="eds-accordion-archive"
-                headingsize="medium"
-                open="false"
-                disabled="false"
-            >
-                <div slot="header">
-                    <span>Continue workflow</span>
-                </div>
-                <div slot="content">
-                    <p>Resolve the query and continue workflow from where it's current state.</p>
-                    <form class="adjust-form">
-                        <eds-form-field label="Comment" name="comment">
-                            <textarea
-                                class="eds-input"
-                                id="comment"
-                                name="comment"
-                                bind:value={continueComments}
-                            />
-                        </eds-form-field>
-                    </form>
-                    <button
-                        disabled={!canSubmitContinue}
-                        class="eds-button eds-button--prominent adjust-claim"
-                        on:click={() => continueWorkflow(`Workflow has been continued. The following comment was made: ${continueComments}`)}
-                        >Continue workflow</button
-                    >
-                </div>
-            </eds-accordion>
+                    id="eds-accordion-archive"
+                    headingsize="medium"
+                    open={panelNumberOpen === 0}
+                    disabled="false"
+                    on:click={() => openAccordion(0)}
+                >
+                    <div slot="header">
+                        <span>Continue workflow</span>
+                    </div>
+                    <div slot="content">
+                        <p>
+                            Resolve the query and continue workflow from where
+                            it's current state.
+                        </p>
+                        <form class="adjust-form">
+                            <eds-form-field label="Comment" name="comment">
+                                <textarea
+                                    class="eds-input"
+                                    id="comment"
+                                    name="comment"
+                                    bind:value={continueComments}
+                                />
+                            </eds-form-field>
+                        </form>
+                        <button
+                            disabled={!canSubmitContinue}
+                            class="eds-button eds-button--prominent adjust-claim"
+                            on:click={() =>
+                                continueWorkflow(
+                                    `Workflow has been continued. The following comment was made: ${continueComments}`,
+                                )}>Continue workflow</button
+                        >
+                    </div>
+                </eds-accordion>
                 <eds-accordion
                     id="eds-accordion-reset"
                     headingsize="medium"
-                    open="false"
+                    open={panelNumberOpen === 1}
                     disabled="false"
+                    on:click={() => openAccordion(1)}
                 >
                     <div slot="header">
                         <span>Restart workflow</span>
                     </div>
                     <div slot="content">
-                        <p>Resolve the query and send the claim back to the Commercial team for re-approval.</p>
+                        <p>
+                            Resolve the query and send the claim back to the
+                            Commercial team for re-approval.
+                        </p>
                         <form class="adjust-form">
                             <eds-form-field label="Comment" name="comment">
                                 <textarea
@@ -153,22 +185,29 @@
                         <button
                             disabled={!canSubmitReset}
                             class="eds-button eds-button--prominent adjust-claim"
-                            on:click={() => restartWorkflow(`Workflow has been reset. The following comment was made: ${resetComments}`)}>Reset workflow</button
+                            on:click={() =>
+                                restartWorkflow(
+                                    `Workflow has been reset. The following comment was made: ${resetComments}`,
+                                )}>Reset workflow</button
                         >
                     </div>
                 </eds-accordion>
                 <eds-accordion
                     id="eds-accordion-adjust"
                     headingsize="medium"
-                    open="false"
+                    open={panelNumberOpen === 2}
                     disabled="false"
+                    on:click={() => openAccordion(2)}
                 >
                     <div slot="header">
                         <span>Adjust claim</span>
                     </div>
                     <div slot="content">
                         <form class="adjust-form">
-                            <p>Adjust the value of the Claim and send the claim back to the Commercial team for re-approval </p>
+                            <p>
+                                Adjust the value of the Claim and send the claim
+                                back to the Commercial team for re-approval
+                            </p>
                             <eds-form-field
                                 label="Claim value (CUR)"
                                 name="claim-value"
@@ -197,7 +236,6 @@
                         >
                     </div>
                 </eds-accordion>
-
             </div>
         </div>
     </div>

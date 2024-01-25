@@ -27,7 +27,7 @@
         queryText = defaultQueryText + workflow.queryMessage;
     });
 
-    let queryModalOpen = true;
+    let queryModalOpen = false;
 
     function openQueryModalPanel() {
         queryModalOpen = true;
