@@ -81,13 +81,19 @@
                             )}</span
                         >
                     </div>
+                    {#if comment.isQuery}
+                        <div class="sub-text">Query</div>
+                    {/if}
+                    {#if comment.isQueryResolution}
+                        <div class="sub-text">Query resolution</div>
+                    {/if}
                     <div class="comment__comment">{comment.comment}</div>
                 </div>
             </div>
         {/each}
     </div>
     <div class="chat__container">
-        <ChatBox bind:queryModeEnabled="{queryModeEnabled}" />
+        <ChatBox bind:queryModeEnabled />
     </div>
 </section>
 
@@ -200,7 +206,7 @@
     .comment__comment {
         padding: 0.5rem;
         background-color: var(--eds-brand-color-background-secondary);
-        margin-top: 0.75rem;
+        margin-top: 0.25rem;
     }
 
     .query {
@@ -259,6 +265,11 @@
 
     .heading {
         display: flex;
+    }
+
+    .sub-text {
+        color: var(--eds-color-steel-70);
+        font-size: 1rem;
     }
 
     eds-toggle-button {
