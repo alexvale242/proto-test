@@ -77,7 +77,7 @@
     $: canSubmitContinue = continueComments.trim() !== "";
     $: canSubmitReset = resetComments.trim() !== "";
 
-    $: panelNumberOpen = 1;
+    $: panelNumberOpen = -1;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -220,7 +220,7 @@
                                     bind:value={adjustValue}
                                 />
                             </eds-form-field>
-                            <eds-form-field label="Comment" name="comment">
+                            <eds-form-field label="Comment" name="comment" class="comment-input">
                                 <textarea
                                     class="eds-input"
                                     id="comment"
@@ -271,5 +271,8 @@
         width: 2rem;
         height: 2rem;
         background: none;
+    }
+    .comment-input {
+        margin-top: 1rem;
     }
 </style>
