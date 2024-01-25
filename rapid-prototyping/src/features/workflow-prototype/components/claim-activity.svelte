@@ -10,6 +10,8 @@
     let comments: Comment[] = [];
     let workflowIsQueried = false;
 
+    export let queryModeEnabled = false;
+
     workflowMockService.workflowState.subscribe((workflow) => {
         workflowIsQueried = workflowMockService.getWorkflowInQuery(workflow);
     });
@@ -85,7 +87,7 @@
         {/each}
     </div>
     <div class="chat__container">
-        <ChatBox />
+        <ChatBox bind:queryModeEnabled="{queryModeEnabled}" />
     </div>
 </section>
 

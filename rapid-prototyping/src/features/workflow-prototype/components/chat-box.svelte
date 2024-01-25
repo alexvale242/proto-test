@@ -5,12 +5,8 @@
     import workflowMockService from "../services/workflow-mock";
     import { WorkflowState } from "../../../lib/workflow-engine/models/workflow-state.model";
 
-    let queryModeEnabled = false;
+    export let queryModeEnabled = false;
     let workflowComplete = false;
-
-    function toggleQueryMode(): void {
-        queryModeEnabled = !queryModeEnabled;
-    }
 
     function addComment(): void {
         const commentValue: string = (
@@ -27,6 +23,7 @@
 
             if (queryModeEnabled) {
                 workflowMock.query(commentValue, "John Bobson");
+                queryModeEnabled = false;
             }
 
             (document.getElementById("comment-input") as any).value = "";
@@ -79,25 +76,6 @@
                 /></svg
             >
         </button>
-        {#if !workflowComplete}
-            <button class="query-button" on:click={toggleQueryMode}>
-                <svg
-                    class="query-icon"
-                    fill="none"
-                    viewBox="0 0 30 90"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    width="90px"
-                    height="90px"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                    />
-                </svg>
-            </button>
-        {/if}
     </div>
 </section>
 

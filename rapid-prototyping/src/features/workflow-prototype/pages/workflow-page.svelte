@@ -27,7 +27,7 @@
         queryText = defaultQueryText + workflow.queryMessage;
     });
 
-    let queryModalOpen = true;
+    let queryModalOpen = false;
 
     function openQueryModalPanel() {
         queryModalOpen = true;
@@ -41,6 +41,17 @@
 
     function closeApproveConfirmModalPanel() {
         approveConfirmModalOpen = false;
+    }
+
+    $: queryMode = false;
+
+    function toggleQueryMode() {
+        queryMode = !queryMode;
+
+        if (queryMode) {
+           var commentInput = document.getElementById("comment-input");
+           commentInput?.focus();
+        }
     }
 </script>
 
@@ -68,7 +79,7 @@
         <ClaimDetails />
     </div>
     <div class="activity-container">
-        <ClaimActivity />
+        <ClaimActivity bind:queryModeEnabled="{queryMode}"/>
     </div>
 </div>
 
@@ -78,9 +89,13 @@
     <button
         class="eds-button"
         disabled={workflowIsQueried}
-        on:click={approveStep}
+        on:click={toggleQueryMode}
     >
-        Cancel query
+        {#if queryMode}
+            Cancel query
+        {:else}
+            Query
+        {/if}
     </button>
     <button
         class="eds-button eds-button--prominent"
@@ -109,19 +124,20 @@
 >
     <div slot="body">
         <h2>Confirm approval</h2>
-        <p>
-            Are you sure you want approve this Claim?
-        </p>
+        <p>Are you sure you want approve this Claim?</p>
     </div>
 
     <div slot="control-region" style="padding: 0 2rem;">
         <button
             class="eds-button eds-button--prominent"
             style="margin-right: 1rem;"
-            id="dialog-example-modal--done-button" on:click={approveStep}>Confirm</button
+            id="dialog-example-modal--done-button"
+            on:click={approveStep}>Confirm</button
         >
-        <button class="eds-button" id="dialog-example-modal--cancel-button"
-        on:click={closeApproveConfirmModalPanel} >Cancel</button
+        <button
+            class="eds-button"
+            id="dialog-example-modal--cancel-button"
+            on:click={closeApproveConfirmModalPanel}>Cancel</button
         >
     </div>
 </eds-modal>
