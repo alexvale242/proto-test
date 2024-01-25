@@ -212,7 +212,7 @@
     .query-button {
         margin: 0;
         position: relative;
-        top: -2.75rem;
+        top: -42px;
         right: 3rem;
         float: right;
 
