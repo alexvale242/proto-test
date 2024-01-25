@@ -55,6 +55,10 @@
             claimActivityMockService.addComment(newComment);
     }
 
+    function closePanel() {
+        modalOpen = false;
+    }
+
     let queryRaisedBy: string | undefined = "";
     let queryMessage: string | undefined = "";
 
@@ -83,6 +87,11 @@
             <p>
                 A query has been raised by {queryRaisedBy}. How do you wish to resolve this query?
             </p>
+            <button class="close-panel" on:click="{closePanel}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#2D3839" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2D3839" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg>
+            </button>
             <eds-info-message
             class="query-message"
             status="warning"
@@ -211,5 +220,14 @@
 
     button {
         max-width: 300px;
+    }
+
+    .close-panel {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 2rem;
+        height: 2rem;
+        background: none;
     }
 </style>
