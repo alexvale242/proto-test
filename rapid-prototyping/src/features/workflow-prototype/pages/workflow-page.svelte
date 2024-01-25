@@ -49,8 +49,8 @@
         queryMode = !queryMode;
 
         if (queryMode) {
-           var commentInput = document.getElementById("comment-input");
-           commentInput?.focus();
+            var commentInput = document.getElementById("comment-input");
+            commentInput?.focus();
         }
     }
 </script>
@@ -79,7 +79,7 @@
         <ClaimDetails />
     </div>
     <div class="activity-container">
-        <ClaimActivity bind:queryModeEnabled="{queryMode}"/>
+        <ClaimActivity bind:queryModeEnabled={queryMode} />
     </div>
 </div>
 
@@ -132,20 +132,25 @@
             class="eds-button eds-button--prominent"
             style="margin-right: 1rem;"
             id="dialog-example-modal--done-button"
-            on:click={approveStep}>Confirm</button
+            on:click={approveStep}>Yes</button
         >
         <button
             class="eds-button"
             id="dialog-example-modal--cancel-button"
-            on:click={closeApproveConfirmModalPanel}>Cancel</button
+            on:click={closeApproveConfirmModalPanel}>No</button
         >
     </div>
 </eds-modal>
 
 <style lang="scss">
-    button {
-        margin: 0.5rem 0.5rem;
-        height: 2rem;
+    .workflow-bar__container {
+        button {
+            margin: 0.5rem 0.5rem;
+            height: 2rem;
+        }
+        .start-query-button {
+            margin-left: 2rem;
+        }
     }
 
     .page-heading {
@@ -219,9 +224,5 @@
             background-color: var(--eds-brand-color-status-warning);
             color: white;
         }
-    }
-
-    .start-query-button {
-        margin-left: 2rem;
     }
 </style>
