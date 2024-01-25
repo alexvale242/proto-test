@@ -206,7 +206,7 @@
     .comment__comment {
         padding: 0.5rem;
         background-color: var(--eds-brand-color-background-secondary);
-        margin-top: 0.25rem;
+        margin-top: 0.5rem;
     }
 
     .query {
