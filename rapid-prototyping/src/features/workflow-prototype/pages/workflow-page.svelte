@@ -87,7 +87,7 @@
 <section class="workflow-bar__container">
     <WorkfowBar />
     <button
-        class="eds-button"
+        class="eds-button start-query-button"
         disabled={workflowIsQueried}
         on:click={toggleQueryMode}
     >
@@ -98,7 +98,7 @@
         {/if}
     </button>
     <button
-        class="eds-button eds-button--prominent"
+        class="eds-button eds-button--prominent approve-button"
         disabled={workflowIsQueried}
         on:click={openApproveConfirmModalPanel}
     >
@@ -219,5 +219,9 @@
             background-color: var(--eds-brand-color-status-warning);
             color: white;
         }
+    }
+
+    .start-query-button {
+        margin-left: 2rem;
     }
 </style>
