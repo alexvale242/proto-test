@@ -3,6 +3,7 @@
     import claimValueService from "../services/claim-value.service";
     import { onMount } from "svelte";
     import claimActivityMockService from "../services/claim-activity-mock";
+    import { PanelType } from "../models/panel-type.model";
 
     onMount(async () => {
         try {
@@ -59,10 +60,40 @@
         modalOpen = false;
     }
 
-    function openAccordion(panelNumber: number) {
-        console.log(panelNumber);
-        panelNumberOpen = panelNumber;
+    function openAccordion(panelType: PanelType) {
+        if (openPanelType === panelType) {
+            openPanelType = null;
+        }
+
+        openPanelType = panelType;
+
+        switch (panelType) {
+            case PanelType.ContinueWorkflow:
+                focusOnInput("continue-target");
+                break;
+            case PanelType.AdjustClaim:
+                focusOnInput("adjust-target");
+                break;
+            case PanelType.StopWorkflow:
+                focusOnInput("stop-target");
+                break;
+
+            default:
+                break;
+        }
     }
+
+    function focusOnInput(targetId: string) {
+        const focusTarget = document.getElementById(targetId);
+
+        if (!!focusTarget) {
+            setTimeout(() => {
+                focusTarget.focus();
+            }, 100)
+        }
+    }
+
+    let openPanelType: PanelType | null = null;
 
     let queryRaisedBy: string | undefined = "";
     let queryMessage: string | undefined = "";
@@ -125,9 +156,9 @@
                 <eds-accordion
                     id="eds-accordion-archive"
                     headingsize="medium"
-                    open={panelNumberOpen === 0}
+                    open={openPanelType === PanelType.ContinueWorkflow}
                     disabled="false"
-                    on:click={() => openAccordion(0)}
+                    on:click={() => openAccordion(PanelType.ContinueWorkflow)}
                 >
                     <div slot="header">
                         <span>Continue workflow</span>
@@ -141,7 +172,7 @@
                             <eds-form-field label="Comment" name="comment">
                                 <textarea
                                     class="eds-input"
-                                    id="comment"
+                                    id="continue-target"
                                     name="comment"
                                     bind:value={continueComments}
                                 />
@@ -160,9 +191,9 @@
                 <eds-accordion
                     id="eds-accordion-reset"
                     headingsize="medium"
-                    open={panelNumberOpen === 1}
+                    open={openPanelType === PanelType.StopWorkflow}
                     disabled="false"
-                    on:click={() => openAccordion(1)}
+                    on:click={() => openAccordion(PanelType.StopWorkflow)}
                 >
                     <div slot="header">
                         <span>Stop workflow</span>
@@ -176,7 +207,7 @@
                             <eds-form-field label="Comment" name="comment">
                                 <textarea
                                     class="eds-input"
-                                    id="comment"
+                                    id="stop-target"
                                     name="comment"
                                     bind:value={resetComments}
                                 />
@@ -195,9 +226,9 @@
                 <eds-accordion
                     id="eds-accordion-adjust"
                     headingsize="medium"
-                    open={panelNumberOpen === 2}
+                    open={openPanelType === PanelType.AdjustClaim}
                     disabled="false"
-                    on:click={() => openAccordion(2)}
+                    on:click={() => openAccordion(PanelType.AdjustClaim)}
                 >
                     <div slot="header">
                         <span>Adjust claim</span>
@@ -214,13 +245,17 @@
                             >
                                 <input
                                     class="eds-input"
-                                    id="claim-value"
+                                    id="adjust-target"
                                     name="claim-value"
                                     type="number"
                                     bind:value={adjustValue}
                                 />
                             </eds-form-field>
-                            <eds-form-field label="Comment" name="comment" class="comment-input">
+                            <eds-form-field
+                                label="Comment"
+                                name="comment"
+                                class="comment-input"
+                            >
                                 <textarea
                                     class="eds-input"
                                     id="comment"
