@@ -1,5 +1,6 @@
 <script lang="ts">
     import MockConfigDraw from "../../../lib/mock-config-draw.svelte";
+    import { WorkflowState } from '../../../lib/workflow-engine/models/workflow-state.model';
     import ClaimActivity from "../components/claim-activity.svelte";
     import ClaimDetails from "../components/claim-details.svelte";
     import QueryPanel from "../components/query-panel.svelte";
@@ -24,7 +25,13 @@
 
     workflowMockService.workflowState.subscribe((workflow) => {
         workflowIsQueried = workflowMockService.getWorkflowInQuery(workflow);
-        queryText = defaultQueryText;
+        const draftTeamLabel = workflow.steps[0].label;
+        const queriedTeamIndex = workflow.steps.findIndex(o => o.workflowState === WorkflowState.queried)
+        let queriedTeamLabel = "";
+        if (queriedTeamIndex !== -1) {
+            queriedTeamLabel = workflow.steps[queriedTeamIndex].label;
+        }
+        queryText = `The workflow for this claim has been queried by the ${queriedTeamLabel} team. The matter is with the ${draftTeamLabel} team to resolve.`;
     });
 
     let queryModalOpen = false;
