@@ -20,7 +20,7 @@
     }
 
     let workflowIsQueried = false;
-    const defaultQueryText = "The workflow for this claim has been queried by the X team. The matter is with the Y team to resolve.";
+    const defaultQueryText = "The workflow for this claim has been queried by X. The matter is with Y to resolve.";
     let queryText = defaultQueryText;
 
     workflowMockService.workflowState.subscribe((workflow) => {
