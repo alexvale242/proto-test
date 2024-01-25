@@ -15,7 +15,7 @@
         }
     });
 
-    function restartWorkflow(comment: string) {
+    function stopWorkflow(comment: string) {
         workflowMockService.restartWorkflow();
         addComment(comment);
         resetForms();
@@ -35,7 +35,7 @@
             claimValueService.writeClaimValue(adjustValue);
 
             const adjustMessage = `Claim value adjusted from ${currentClaimValue} CUR to ${adjustValue} CUR. The following comment was made: ${adjustComments}`;
-            restartWorkflow(adjustMessage);
+            stopWorkflow(adjustMessage);
         }
     }
 
@@ -75,7 +75,7 @@
 
     $: canSubmitAdjustment = adjustComments.trim() !== "" && !!adjustValue;
     $: canSubmitContinue = continueComments.trim() !== "";
-    $: canSubmitReset = resetComments.trim() !== "";
+    $: canSubmitStop = resetComments.trim() !== "";
 
     $: panelNumberOpen = -1;
 </script>
@@ -165,7 +165,7 @@
                     on:click={() => openAccordion(1)}
                 >
                     <div slot="header">
-                        <span>Restart workflow</span>
+                        <span>Stop workflow</span>
                     </div>
                     <div slot="content">
                         <p>
@@ -183,10 +183,10 @@
                             </eds-form-field>
                         </form>
                         <button
-                            disabled={!canSubmitReset}
+                            disabled={!canSubmitStop}
                             class="eds-button eds-button--prominent adjust-claim"
                             on:click={() =>
-                                restartWorkflow(
+                                stopWorkflow(
                                     `Workflow has been reset. The following comment was made: ${resetComments}`,
                                 )}>Reset workflow</button
                         >
