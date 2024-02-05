@@ -4,6 +4,7 @@
     import { onMount } from "svelte";
     import claimActivityMockService from "../services/claim-activity-mock";
     import { PanelType } from "../models/panel-type.model";
+    import Adjustment from './adjustment/adjustment.svelte';
 
     onMount(async () => {
         try {
@@ -72,7 +73,7 @@
                 focusOnInput("continue-target");
                 break;
             case PanelType.AdjustClaim:
-                focusOnInput("adjust-target");
+                // focusOnInput("adjust-target");
                 break;
             case PanelType.StopWorkflow:
                 focusOnInput("stop-target");
@@ -234,7 +235,7 @@
                         <span>Adjust claim</span>
                     </div>
                     <div slot="content">
-                        <form class="adjust-form">
+                        <!-- <form class="adjust-form">
                             <p>
                                 Adjust the value of the Claim and send the claim
                                 back to the Commercial team for re-approval
@@ -268,7 +269,8 @@
                             disabled={!canSubmitAdjustment}
                             class="eds-button eds-button--prominent adjust-claim"
                             on:click={adjustClaim}>Adjust claim</button
-                        >
+                        > -->
+                        <Adjustment></Adjustment>
                     </div>
                 </eds-accordion>
             </div>
