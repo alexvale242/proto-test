@@ -57,5 +57,6 @@
         position: absolute;
         right: 3rem;
         top: -0.5rem;
+        width: 175px;
     }
 </style>

@@ -18,7 +18,7 @@
         Program line
     </div>
 
-    <div>Test Agreement</div>
+    <div class="agreement-name">Test Agreement</div>
     <div class="adjust_container">
         <eds-form-field label="Adjustment value" name="claim-value">
             <input
@@ -49,12 +49,15 @@
     }
 
     .eds-tag {
-        margin: 0.5rem 0;
-        font-size: 0.75rem;
-        padding: 0 0.5rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
     }
 
     .adjust_container {
         margin-top: 0.5rem;
+    }
+
+    .agreement-name {
+        font-size: 1.25rem;;
     }
 </style>

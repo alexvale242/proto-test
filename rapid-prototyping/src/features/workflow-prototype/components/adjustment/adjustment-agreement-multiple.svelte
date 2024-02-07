@@ -18,7 +18,7 @@
         grid-template-columns: 1fr 1fr;
         grid-gap: 2rem;
         margin-top: 1rem;
-        width: 65svw;
+        width: 50svw;
     }
 
     .value {
