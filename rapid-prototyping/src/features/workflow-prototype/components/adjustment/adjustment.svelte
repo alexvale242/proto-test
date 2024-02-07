@@ -5,15 +5,29 @@
     import AdjustmentAgreementSingle from "./adjustment-agreement-single.svelte";
     let adjustmentComments = "";
     let isMultiple = true;
+
+
 </script>
 
 <div class="adjustment__container">
+    <div class="toggle__container">
+        <eds-form-field label="Multiple agreements" name="eds-toggle-switch--default" helptext="Prototype control: Not intended to be included in the finished product">
+            <div class="eds-toggle-switch__input-container">
+                <label tabindex="-1">
+                    <input class="eds-toggle-switch__checkbox" bind:checked={isMultiple} type="checkbox" role="switch" tabindex="0" id="eds-toggle-switch--default" aria-describedby="eds-toggle-switch__description" aria-checked="false" aria-disabled="false">
+                    <div class="eds-toggle-switch__slider" tabindex="-1"></div>
+                    <span id="eds-toggle-switch__description" class="eds-toggle-switch__description-text" tabindex="-1" aria-hidden="false" title="off" style="display: block;">off</span>
+                </label>
+            </div>
+        </eds-form-field>
+    </div>
 
-{#if isMultiple}
-    <AdjustmentAgreementMultiple></AdjustmentAgreementMultiple>
-{:else}
-    <AdjustmentAgreementSingle></AdjustmentAgreementSingle>
-{/if}
+
+    {#if isMultiple}
+        <AdjustmentAgreementMultiple></AdjustmentAgreementMultiple>
+    {:else}
+        <AdjustmentAgreementSingle></AdjustmentAgreementSingle>
+    {/if}
 
     <eds-form-field label="Comment" name="comment" class="comment-input">
         <textarea
@@ -36,5 +50,12 @@
     }
     .adjustment__container {
         margin-top: 0.5rem;
+        position: relative;
+    }
+
+    .toggle__container {
+        position: absolute;
+        right: 3rem;
+        top: -0.5rem;
     }
 </style>
